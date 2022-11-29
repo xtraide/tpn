@@ -1,8 +1,13 @@
 [
-  {"song":"Dialogue De Sourds"},
-  {"song":"Les Champs De Roses"},
-  {"song":"Les vieillards"},
-  {"song":"Marley"},
-  {"song":"Samourais De L'occident"}
-  
+{"type":"header","version":"5.1.1","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"sae105"},
+{"type":"table","name":"song","database":"sae105","data":
+[
+{"song":"Dialogue De Sourds\r\n"},
+{"song":"Les Champs De Roses\r\n                  "},
+{"song":"Les vieillards"},
+{"song":"Marley"},
+{"song":"Samourais De L'occident"}
+]
+}
 ]
