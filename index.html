@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+        <script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+            </script>
+	</head>
+	<body>
+		<button id="demo" onclick="toblue()">gg</button>
+        
+		<script type="module">
+            import * as THREE from 'three';
+            import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+			const scene = new THREE.Scene(); // pour cree une scene 
+            scene.background = new THREE.Color( 0x000000 );
+			
+
+			const renderer = new THREE.WebGLRenderer(); // cree un renderer ppour faire un rendu des objec sur la scenee 
+			renderer.setSize( window.innerWidth/2, window.innerHeight/2 ); 
+			document.body.appendChild( renderer.domElement );  //This is a <canvas> element the renderer uses to display the scene to us.
+
+            const PointLight = new THREE.PointLight(0xffffff);
+            PointLight.position.set(0,10,0);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff);
+            scene.add(PointLight,ambientLight);
+
+            const LightHelper = new THREE.PointLightHelper(PointLight);
+
+            const gridHelper = new THREE.GridHelper(200,50);
+            scene.add(LightHelper,gridHelper);
+
+			/*const loader = new GLTFLoader();
+
+			loader.load( 'sans_nom.glb', function ( gltf ) {
+
+				scene.add( gltf.scene );
+
+			}, undefined, function ( error ) {
+
+				console.error( error );
+
+			} );*/
+			var test = 0xbfe3dd;
+			
+			const geometry = new THREE.BoxGeometry( 5, 5, 5 ); // objet 3d   la un cube 1,1,1 
+			const material = new THREE.MeshStandardMaterial( { color: test } ); // cree une texture avec une couleur 
+			const cube = new THREE.Mesh( geometry, material ); // objet geometrique 
+			cube.position.set(0,5,0);
+			const geometry2 = new THREE.BoxGeometry( 150, 20, 150 ); // objet 3d   la un cube 1,1,1 
+			const material2 = new THREE.MeshBasicMaterial( { color: 0x686868 } ); // cree une texture avec une couleur 
+			const floor = new THREE.Mesh( geometry2, material2 ); // objet geometrique 
+			floor.position.set(0,-10,0);
+			scene.add( cube,floor ); // ajoute a la scene le cube
+			// CAMERA
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // cree une camera pour voir la scene (fov,rapport hauteur/largeur,render proche,loin pour faire des rendu different)
+			camera.position.z = 15; // on met la camera a une position 
+			camera.position.y = 15;
+			camera.lookAt(0,7,0);
+
+
+
+			//ORBIT
+            const controls = new OrbitControls( camera, renderer.domElement );
+			controls.target.set( 0, 0.5, 0 );
+			controls.update();
+			controls.enablePan = false;
+			controls.enableDamping = true;
+			controls.minDistance = 13;
+			controls.maxDistance = 25;
+            
+            function addStar(){
+                const geometry = new THREE.SphereGeometry(1,24,24);
+                const material = new THREE.MeshStandardMaterial( { color: 0x16F8DF });
+                const star = new THREE.Mesh( geometry, material );
+
+                const [x, y, z] =  Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 100 ) );
+
+                star.position.set(x, y, z);
+                scene.add(star);
+
+            }
+            Array(200).fill().forEach(addStar);
+
+			function animate() {
+				requestAnimationFrame( animate );
+
+                controls.update();
+
+				renderer.render( scene, camera );
+			}; //fonction permet d'animer le cube 
+			 
+
+			animate();
+			/// LISTENER BOUTON ///
+			const btn = document.querySelector('button'); // poiteur sur le bouton
+      		const newMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000 } ); // creee le new material 
+      		btn.addEventListener('click', () => {    //  faire quand le bouton click
+      			cube.material = newMaterial;
+      		});
+      /// !LISTENER BOUTON ///
+		</script>
+		<script>
+
+		</script>
+		
+		
+	</body>
+</html>
